@@ -40,18 +40,21 @@ class Simulation(object):
         # At the end of each time step, call self._infect_newly_infected()
         # and then reset .newly_infected back to an empty list.
         self.logger = None
-        self.population = [] # List of Person objects
-        self.pop_size = pop_size # Int
-        self.next_person_id = 0 # Int
-        self.virus = virus # Virus object
-        self.initial_infected = initial_infected # Int
-        self.total_infected = 0 # Int
-        self.current_infected = 0 # Int
-        self.vacc_percentage = vacc_percentage # float between 0 and 1
-        self.total_dead = 0 # Int
+        self.population = []  # List of Person objects
+        self.pop_size = pop_size  # Int
+        self.next_person_id = 0  # Int
+        self.virus = virus  # Virus object
+        self.initial_infected = initial_infected  # Int
+        self.total_infected = 0  # Int
+        self.current_infected = 0  # Int
+        self.vacc_percentage = vacc_percentage  # float between 0 and 1
+        self.total_dead = 0  # Int
         self.file_name = "{}_simulation_pop_{}_vp_{}_infected_{}.txt".format(
             virus_name, population_size, vacc_percentage, initial_infected)
         self.newly_infected = []
+
+        self.logger = Logger(self.file_name)
+        self.population = self._create_population(self.initial_infected)
 
     def _create_population(self, initial_infected):
         '''This method will create the initial population.
