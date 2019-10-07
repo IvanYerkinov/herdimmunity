@@ -1,8 +1,11 @@
-import random, sys
-random.seed(42)
+import random
+import sys
 from person import Person
 from logger import Logger
 from virus import Virus
+
+
+random.seed(42)
 
 
 class Simulation(object):
@@ -125,15 +128,24 @@ class Simulation(object):
         '''
         # Assert statements are included to make sure that only living people are passed
         # in as params
-        assert person.is_alive == True
-        assert random_person.is_alive == True
+        assert person.is_alive is True
+        assert random_person.is_alive is True
 
         # TODO: Finish this method.
         #  The possible cases you'll need to cover are listed below:
+        if random_person.is_vaccinated:
+            return
             # random_person is vaccinated:
-            #     nothing happens to random person.
+            # nothing happens to random person.
+        elif random_person.infection is not None:
+            return
             # random_person is already infected:
             #     nothing happens to random person.
+        else:
+            ranNum = random.uniform(0, 1)
+
+            if ranNum < person.infection.repro_rate:
+                self.newly_infected.append(random_person._id)
             # random_person is healthy, but unvaccinated:
             #     generate a random number between 0 and 1.  If that number is smaller
             #     than repro_rate, random_person's ID should be appended to
