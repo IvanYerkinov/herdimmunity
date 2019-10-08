@@ -129,6 +129,7 @@ class Simulation(object):
         # TODO: for every iteration of this loop, call self.time_step() to compute another
         # round of this simulation.
         print('The simulation has ended after {time_step_counter} turns.'.format(time_step_counter))
+        should_continue = self._simulation_should_continue()
         pass
 
     def time_step(self):
@@ -188,6 +189,10 @@ class Simulation(object):
         # TODO: Call this method at the end of every time step and infect each Person.
         # TODO: Once you have iterated through the entire list of self.newly_infected, remember
         # to reset self.newly_infected back to an empty list.
+        for person in self.newly_infected:
+            person.infection = self.virus
+
+        self.newly_infected = []
         pass
 
 
