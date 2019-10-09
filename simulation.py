@@ -175,10 +175,12 @@ class Simulation(object):
         # TODO: Finish this method.
         #  The possible cases you'll need to cover are listed below:
         if random_person.is_vaccinated:
+            self.logger.log_interaction(person, random_person, False, True)
             return
             # random_person is vaccinated:
             # nothing happens to random person.
         elif random_person.infection is not None:
+            self.logger.log_interaction(person, random_person, True)
             return
             # random_person is already infected:
             #     nothing happens to random person.
@@ -188,6 +190,10 @@ class Simulation(object):
             if ranNum < person.infection.repro_rate:
                 if random_person._id not in self.newly_infected:
                     self.newly_infected.append(random_person._id)
+                    self.logger.log_interaction(person, random_person, False, False, True)
+                    return
+            else:
+                self.logger.log_interaction(person, random_person)
             # random_person is healthy, but unvaccinated:
             #     generate a random number between 0 and 1.  If that number is smaller
             #     than repro_rate, random_person's ID should be appended to

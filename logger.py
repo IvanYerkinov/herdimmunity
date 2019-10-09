@@ -9,7 +9,7 @@ class Logger(object):
     def __init__(self, file_name):
         # TODO:  Finish this initialization method. The file_name passed should be the
         # full file name of the file that the logs will be written to.
-        self.file_name = None
+        self.file_name = file_name
 
     def write_metadata(self, pop_size, vacc_percentage, virus_name, mortality_rate,
                        basic_repro_num):
@@ -17,6 +17,8 @@ class Logger(object):
         The simulation class should use this method immediately to log the specific
         parameters of the simulation as the first line of the file.
         '''
+        with open(self.file_name, 'w') as file:
+            file.write("Virus name = " + virus_name + "\nReproduction rate = " + str(basic_repro_num) + "\nMortality rate = " + str(mortality_rate) + "\n\nPopulation = " + str(pop_size) + "\nVacination Percent = " + str(vacc_percentage) + "\n\n")
         # TODO: Finish this method. This line of metadata should be tab-delimited
         # it should create the text file that we will store all logs in.
         # TIP: Use 'w' mode when you open the file. For all other methods, use
@@ -25,8 +27,8 @@ class Logger(object):
         # event logged ends up on a separate line!
         pass
 
-    def log_interaction(self, person, random_person, random_person_sick=None,
-                        random_person_vacc=None, did_infect=None):
+    def log_interaction(self, person, random_person, random_person_sick=False,
+                        random_person_vacc=False, did_infect=False):
         '''
         The Simulation object should use this method to log every interaction
         a sick person has during each time step.
@@ -36,6 +38,26 @@ class Logger(object):
         or the other edge cases:
             "{person.ID} didn't infect {random_person.ID} because {'vaccinated' or 'already sick'} \n"
         '''
+        if random_person_vacc is True:
+            with open(self.file_name, 'a') as file:
+                file.write(str(person._id) + " didn't infect " + str(random_person._id) + "because vaccinated. \n")
+            return
+            # random_person is vaccinated:
+            # nothing happens to random person.
+        elif random_person_sick is True:
+            with open(self.file_name, 'a') as file:
+                file.write(str(person._id) + " didn't infect " + str(random_person._id) + "because already sick. \n")
+            return
+            # random_person is already infected:
+            #     nothing happens to random person.
+        elif did_infect is True:
+            with open(self.file_name, 'a') as file:
+                file.write(str(person._id) + " infected " + str(random_person._id) + "\n")
+            return
+        else:
+            with open(self.file_name, 'a') as file:
+                file.write(str(person._id) + " didn't infect " + str(random_person._id) + "\n")
+            return
         # TODO: Finish this method. Think about how the booleans passed (or not passed)
         # represent all the possible edge cases. Use the values passed along with each person,
         # along with whether they are sick or vaccinated when they interact to determine
