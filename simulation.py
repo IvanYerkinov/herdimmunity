@@ -156,6 +156,7 @@ class Simulation(object):
                     if randPerson != person or randPerson.is_alive is True:
                         self.interaction(person, randPerson)
                         timer += 1
+            self.logger.log_infection_survival(person, not person.did_survive_infection())
 
         pass
 

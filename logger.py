@@ -74,6 +74,12 @@ class Logger(object):
         # TODO: Finish this method. If the person survives, did_die_from_infection
         # should be False.  Otherwise, did_die_from_infection should be True.
         # Append the results of the infection to the logfile
+        if did_die_from_infection is True:
+            with open(self.file_name, 'a') as file:
+                file.write(str(person._id) + " died from infection.\n")
+        else:
+            with open(self.file_name, 'a') as file:
+                file.write(str(person._id) + " survived infection.\n")
         pass
 
     def log_time_step(self, time_step_number):
