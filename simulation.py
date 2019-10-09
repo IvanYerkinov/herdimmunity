@@ -126,10 +126,13 @@ class Simulation(object):
         should_continue = None
 
         while should_continue:
-        # TODO: for every iteration of this loop, call self.time_step() to compute another
-        # round of this simulation.
+            # TODO: for every iteration of this loop, call self.time_step() to compute another
+            # round of this simulation.
+            time_step_counter += 1
+            self.time_step()
+            self._infect_newly_infected()
+            should_continue = self._simulation_should_continue()
         print('The simulation has ended after {time_step_counter} turns.'.format(time_step_counter))
-        should_continue = self._simulation_should_continue()
         pass
 
     def time_step(self):
@@ -145,6 +148,15 @@ class Simulation(object):
                 increment interaction counter by 1.
             '''
         # TODO: Finish this method.
+        timer = 0
+        for person in self.population:
+            if person.infection is not None and person.is_alive is True:
+                while timer != 100:
+                    randPerson = random.choice(self.population)
+                    if randPerson != person or randPerson.is_alive is True:
+                        self.interaction(person, randPerson)
+                        timer += 1
+
         pass
 
     def interaction(self, person, random_person):
@@ -174,7 +186,8 @@ class Simulation(object):
             ranNum = random.uniform(0, 1)
 
             if ranNum < person.infection.repro_rate:
-                self.newly_infected.append(random_person._id)
+                if random_person._id not in self.newly_infected:
+                    self.newly_infected.append(random_person._id)
             # random_person is healthy, but unvaccinated:
             #     generate a random number between 0 and 1.  If that number is smaller
             #     than repro_rate, random_person's ID should be appended to
