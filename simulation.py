@@ -56,6 +56,8 @@ class Simulation(object):
         self.logger = Logger(self.file_name)
         self.population = self._create_population(self.initial_infected)
 
+        self.logger.write_metadata(self.pop_size, self.vacc_percentage, self.virus.name, self.virus.mortality_rate, self.virus.repro_rate)
+
     def _create_population(self, initial_infected):
         '''This method will create the initial population.
             Args:
@@ -106,7 +108,7 @@ class Simulation(object):
                 isded += 1
             if en.is_vaccinated is True:
                 vac += 1
-        if isded == poplen or vac == poplen:
+        if isded == poplen or vac == poplen - self.total_dead:
             return False
         return True
         pass
@@ -156,7 +158,11 @@ class Simulation(object):
                     if randPerson != person or randPerson.is_alive is True:
                         self.interaction(person, randPerson)
                         timer += 1
-            self.logger.log_infection_survival(person, not person.did_survive_infection())
+                if not person.did_survive_infection():
+                    self.total_dead += 1
+                    self.logger.log_infection_survival(person, False)
+                else:
+                    self.logger.log_infection_survival(person, True)
 
         pass
 
