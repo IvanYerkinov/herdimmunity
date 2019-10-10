@@ -132,7 +132,6 @@ class Simulation(object):
             # round of this simulation.
             time_step_counter += 1
             self.time_step()
-            self._infect_newly_infected()
             should_continue = self._simulation_should_continue()
         print('The simulation has ended after {time_step_counter} turns.'.format(time_step_counter))
         pass
@@ -163,6 +162,8 @@ class Simulation(object):
                     self.logger.log_infection_survival(person, False)
                 else:
                     self.logger.log_infection_survival(person, True)
+
+        self._infect_newly_infected()
 
         pass
 
