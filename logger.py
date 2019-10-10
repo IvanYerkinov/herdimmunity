@@ -40,13 +40,13 @@ class Logger(object):
         '''
         if random_person_vacc is True:
             with open(self.file_name, 'a') as file:
-                file.write(str(person._id) + " didn't infect " + str(random_person._id) + "because vaccinated. \n")
+                file.write(str(person._id) + " didn't infect " + str(random_person._id) + " because vaccinated. \n")
             return
             # random_person is vaccinated:
             # nothing happens to random person.
         elif random_person_sick is True:
             with open(self.file_name, 'a') as file:
-                file.write(str(person._id) + " didn't infect " + str(random_person._id) + "because already sick. \n")
+                file.write(str(person._id) + " didn't infect " + str(random_person._id) + " because already sick. \n")
             return
             # random_person is already infected:
             #     nothing happens to random person.
@@ -101,3 +101,10 @@ class Logger(object):
         # new one begins.
         # NOTE: Here is an opportunity for a stretch challenge!
         pass
+
+    def log_alive_or_dead(self, person):
+        with open(self.file_name, 'a') as file:
+            if person.is_alive is True:
+                file.write(str(person._id) + " survived.\n")
+            else:
+                file.write(str(person._id) + " died.\n")

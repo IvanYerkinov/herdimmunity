@@ -1,7 +1,7 @@
 import random
 from virus import Virus
 
-random.seed(42)
+# random.seed(42)
 
 
 class Person(object):
@@ -30,7 +30,9 @@ class Person(object):
         # TODO:  Finish this method. Should return a Boolean
         mortus = random.uniform(0, 1)
 
-        if mortus < self.infection.mortality_rate:
+        # print(str(mortus))
+
+        if mortus <= self.infection.mortality_rate:
             self.is_alive = False
             return False
         else:
