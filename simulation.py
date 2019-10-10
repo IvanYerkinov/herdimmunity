@@ -106,7 +106,7 @@ class Simulation(object):
         for en in self.population:
             if en.is_alive is False:
                 isded += 1
-            if en.is_vaccinated is True:
+            if en.is_vaccinated is True and en.is_alive is True:
                 vac += 1
         if isded == poplen or vac == poplen - self.total_dead:
             return False
